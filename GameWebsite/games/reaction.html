@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Reaction Time</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    #box {
+      width: 200px;
+      height: 200px;
+      margin: 50px auto;
+      background: red;
+      display: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h1>⚡ Reaction Time</h1>
+<p>Klikk på boksen så raskt du kan når den blir grønn!</p>
+<p id="message">Trykk på Start for å begynne</p>
+<button onclick="start()">Start</button>
+<div id="box"></div>
+
+<script>
+  let startTime;
+
+  function start() {
+    document.getElementById('message').textContent = 'Vent på grønn...';
+    document.getElementById('box').style.backgroundColor = 'red';
+    document.getElementById('box').style.display = 'none';
+
+    setTimeout(() => {
+      document.getElementById('box').style.display = 'block';
+      document.getElementById('box').style.backgroundColor = 'green';
+      startTime = Date.now();
+    }, Math.random() * 3000 + 1000);
+  }
+
+  document.getElementById('box').addEventListener('click', () => {
+    const reaction = Date.now() - startTime;
+    document.getElementById('message').textContent = `Du reagerte på ${reaction} ms!`;
+    document.getElementById('box').style.display = 'none';
+  });
+</script>
+</body>
+</html>

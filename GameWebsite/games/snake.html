@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Snake</title>
+  <style>
+    body { background: #111; color: white; font-family: sans-serif; text-align: center; }
+    canvas { background: #222; border: 3px solid #0f0; margin-top: 20px; }
+  </style>
+</head>
+<body>
+<h1>🐍 Snake</h1>
+<p>Bruk piltastene for å styre slangen. Spis rød mat, unngå å treffe deg selv eller kantene!</p>
+<canvas id="game" width="400" height="400"></canvas>
+<script>
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const box = 20;
+  let score = 0;
+  let snake = [{x: 10 * box, y: 10 * box}];
+  let direction = null;
+  let food = { x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box };
+  document.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft" && direction !== "RIGHT") direction = "LEFT";
+    if (e.key === "ArrowUp" && direction !== "DOWN") direction = "UP";
+    if (e.key === "ArrowRight" && direction !== "LEFT") direction = "RIGHT";
+    if (e.key === "ArrowDown" && direction !== "UP") direction = "DOWN";
+  });
+  function draw() {
+    ctx.clearRect(0, 0, 400, 400);
+    for (let i = 0; i < snake.length; i++) {
+      ctx.fillStyle = i === 0 ? "#0f0" : "#fff";
+      ctx.fillRect(snake[i].x, snake[i].y, box, box);
+    }
+    ctx.fillStyle = "red";
+    ctx.fillRect(food.x, food.y, box, box);
+    let headX = snake[0].x;
+    let headY = snake[0].y;
+    if (direction === "LEFT") headX -= box;
+    if (direction === "UP") headY -= box;
+    if (direction === "RIGHT") headX += box;
+    if (direction === "DOWN") headY += box;
+    if (headX === food.x && headY === food.y) {
+      score++;
+      food = { x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box };
+    } else { snake.pop(); }
+    const newHead = {x: headX, y: headY};
+    if (headX < 0 || headY < 0 || headX >= 400 || headY >= 400 || snake.some(s => s.x === headX && s.y === headY)) {
+      clearInterval(game);
+      alert("Game Over! Poeng: " + score);
+      location.reload();
+    }
+    snake.unshift(newHead);
+  }
+  const game = setInterval(draw, 150);
+</script>
+</body>
+</html>

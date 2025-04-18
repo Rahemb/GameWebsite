@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Avoid the Squares</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+      font-family: sans-serif;
+    }
+
+    #player {
+      width: 40px;
+      height: 40px;
+      background: #0f0;
+      position: absolute;
+      left: 50%;
+      top: 80%;
+    }
+
+    .obstacle {
+      width: 40px;
+      height: 40px;
+      background: red;
+      position: absolute;
+      top: -40px;
+    }
+  </style>
+</head>
+<body>
+<h1>🟥 Avoid the Squares</h1>
+<p>Bruk venstre og høyre piltaster for å unngå de røde firkantene!</p>
+<div id="player"></div>
+
+<script>
+  const player = document.getElementById('player');
+  let pos = window.innerWidth / 2;
+  let gameOver = false;
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') pos -= 20;
+    if (e.key === 'ArrowRight') pos += 20;
+    player.style.left = pos + 'px';
+  });
+
+  function createObstacle() {
+    const obs = document.createElement('div');
+    obs.classList.add('obstacle');
+    obs.style.left = Math.random() * (window.innerWidth - 40) + 'px';
+    document.body.appendChild(obs);
+
+    let top = -40;
+    const fall = setInterval(() => {
+      if (gameOver) return;
+      top += 5;
+      obs.style.top = top + 'px';
+      const px = player.offsetLeft;
+      const py = player.offsetTop;
+
+      if (
+              top + 40 > py && top < py + 40 &&
+              obs.offsetLeft < px + 40 && obs.offsetLeft + 40 > px
+      ) {
+        alert('Game Over!');
+        gameOver = true;
+        location.reload();
+      }
+
+      if (top > window.innerHeight) {
+        obs.remove();
+        clearInterval(fall);
+      }
+    }, 30);
+  }
+
+  setInterval(() => {
+    if (!gameOver) createObstacle();
+  }, 1000);
+</script>
+</body>
+</html>
