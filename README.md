@@ -12,7 +12,8 @@ Du kan spille 5 små, morsomme spill direkte i nettleseren din – helt gratis!
 
 ## Hvordan spille
 Gå til nettsiden:  
-👉 **[Spill nå](https://rahemb.github.io/GameWebsite/)**
+👉 **[Start Spillhub](https://rahemb.github.io/GameWebsite/index.html)**
+
 
 Alle spillene åpnes i ny fane og krever ingen installasjon. Bare spill og kos deg!
 
